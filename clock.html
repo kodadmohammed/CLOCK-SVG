@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+<style>
+    svg{
+      border : 1px dottad gray;
+    }
+    .grad{
+      stroke : black;
+      stroke-width : 1;
+    }
+    .grad5{
+      stroke-width : 2;
+    }
+    .grad15{
+      stroke-width : 3;
+    }
+    .grad{
+      stroke : black;
+      stroke-width : 1;
+    }
+</style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="out">
+
+
+    <script>
+    var svg=createClock();
+    startClock(svg);
+    function createClock(){
+      var svg=document.createElementNS("http://www.w3.org/2000/svg",'svg');
+      svg.setAttribute('whidth',500);
+      svg.setAttribute('height',500);
+      svg.setAttribute('viewBox','-100, -100, 200, 200');
+      document.querySelector('#out').appendChild(svg);
+      var cir=document.createElementNS("http://www.w3.org/2000/svg",'circle');
+      cir.setAttribute('r',10);
+      svg.appendChild(cir);
+      var cir1=document.createElementNS("http://www.w3.org/2000/svg",'circle');
+      cir1.setAttribute('r',105);
+      cir1.setAttribute('fill','none');
+      cir1.setAttribute('stroke-width',1);
+      cir1.setAttribute('stroke','black');
+      svg.appendChild(cir1);
+      var cir2=document.createElementNS("http://www.w3.org/2000/svg",'circle');
+      cir2.setAttribute('r',95);
+      cir2.setAttribute('fill','none');
+      cir2.setAttribute('stroke-width',0.6);
+      cir2.setAttribute('stroke','grey');
+      svg.appendChild(cir2);
+
+      var grd = document.createElementNS("http://www.w3.org/2000/svg",'g');
+      var grad = document.createElementNS("http://www.w3.org/2000/svg",'line');
+      svg.appendChild(grd);
+      grad.setAttribute('y1',-90);
+      grad.setAttribute('y2',-92);
+      grad.setAttribute('stroke','green');
+
+      for (var i=0;i<60;i++){
+        var grad1=grad.cloneNode(true);
+        var width=(i%15===0)?10:(i%5===0)?5:1;
+        grad.setAttribute('stroke-width',width);
+        grad1.setAttribute('transform', 'rotate(' + i*6 +')');
+        grad1.setAttribute('stroke-linecap','square');
+        grd.appendChild(grad1);
+      }
+      return svg;
+    }
+    function startClock(svg){
+      var grp = document.createElementNS("http://www.w3.org/2000/svg",'g');
+      svg.appendChild(grp);
+      var segSec = document.createElementNS("http://www.w3.org/2000/svg",'line');
+      segSec.setAttribute('y1',-86);
+      segSec.setAttribute('stroke','black');
+      segSec.setAttribute('stroke-width',1);
+      grp.appendChild(segSec);
+
+      var segMin = document.createElementNS("http://www.w3.org/2000/svg",'line');
+      segMin.setAttribute('y2',-72);
+      segMin.setAttribute('stroke','black');
+      segMin.setAttribute('stroke-width',2);
+      grp.appendChild(segMin);
+
+      var seghour = document.createElementNS("http://www.w3.org/2000/svg",'line');
+      seghour.setAttribute('y2',-50);
+      seghour.setAttribute('stroke','black');
+      seghour.setAttribute('stroke-width',2);
+      grp.appendChild(seghour);
+
+    function setSec(){
+      var d =(new Date());
+      var sec = d.getSeconds();
+      var min =d.getMinutes();
+      var h = d.getHours();
+      h=h>12?h-12:h;
+      segSec.setAttribute('transform','rotate('+sec * 6+ ')');
+      segMin.setAttribute('transform','rotate('+min * 6+ ')');
+      seghour.setAttribute('transform','rotate(' +(h * 30+min/2)+ ')');
+      setTimeout(setSec,1000);
+     }
+     setSec();
+   }
+    </script>
+</div>
+  </body>
+</html>
